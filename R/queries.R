@@ -21,8 +21,10 @@ library(dbplyr)
 # SELECT * FROM table ORDER BY col1 DESC LIMIT 5
 # BETWEEN operator is same as `>= low AND <= high`
 # BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD'
-
-
+# LIKE , ILIKE -- `WHERE name LIKE '_her%'`
+                                # C her yl
+                                # T her esa
+                                # S her ri
 
 # SELECT * FROM 
 # WHERE
@@ -327,6 +329,69 @@ WHERE first_name IN ('John', 'Jake', 'Julie')
 airports %>% 
     filter(tzone %in% c("America/New_York", "America/Los_Angeles")) %>% 
     show_query()
+
+# SAME as...LIKE ILIKE 
+
+SELECT * FROM customer
+WHERE first_name LIKE 'J%';
+
+# WHERE LIKE 'L%'
+airports %>%
+    collect() %>%
+    filter(str_detect(name, "^L")) %>%
+
+
+# COUNT
+SELECT COUNT(*) FROM customer
+WHERE first_name LIKE 'J%';
+
+airports %>%
+    collect() %>%
+    filter(str_detect(name, "^L")) %>%
+    summarize(n())
+
+# ILIKE - case insentive
+SELECT * FROM customer
+WHERE first_name ILIKE '%er%' 
+
+# Long Chain of CUSTOM LIKE
+SELECT * FROM customer
+WHERE first_name LIKE 'A%' AND last_name NOT LIKE 'B%'
+ORDER BY last_name
+
+# GENERAL CHALLENGE
+
+# How many payment transactions were greater than $5.00 (n = 3618)
+
+SELECT COUNT(amount) FROM payment
+WHERE amount > 5;
+
+# How many actors have a first name that starts with the letter P? (n = 5)
+
+SELECT COUNT(first_name) FROM actor
+WHERE first_name LIKE 'P%';
+
+# How many unique districts are our customers from?
+
+SELECT COUNT(DISTINCT(district)) FROM address;
+
+# Retrieve list of names from those Distinct districts
+
+SELECT DISTINCT(district) FROM address;
+
+# How many filmes have a rating of R and a replacement cost between $5 and $15? (n = 52)
+
+SELECT COUNT(*) FROM film
+WHERE rating = 'R' AND replacement_cost BETWEEN 5 AND 15
+
+# How many films have the word Truman somewhere in the title?
+
+SELECT COUNT(title) FROM film
+WHERE title LIKE '%Truman%'
+
+
+
+
 
 
 
