@@ -13,7 +13,7 @@ library(dbplyr)
 # SELECT COUNT(col) FROM table; -- more useful when combined with DISTINCT
 # SELECT COUNT(*) FROM table; show number of rows
 # SELECT COUNT(DISTINCT column_value) FROM table;
-
+# SELECT col1, col2 FROM table WHERE conditions;
 
 
 # Challenge: SELECT
@@ -87,6 +87,20 @@ flights %>%
 
 flights %>%
     count(month) %>%
+    show_query()
+
+
+# SELECT col1, col2 FROM table WHERE conditions;
+# Example: SELECT name, choice FROM table WHERE name = 'David'
+
+# <SQL>
+# SELECT *
+# FROM (SELECT `month`, `dep_time`
+# FROM `nycflights13::flights`)
+# WHERE (`month` = 1.0)
+flights %>%
+    select(month, dep_time) %>%
+    filter(month==1) %>%
     show_query()
 
 
