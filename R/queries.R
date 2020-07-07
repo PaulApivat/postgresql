@@ -74,7 +74,7 @@ film %>%
 # SELECT DISTINCT `month`
 # FROM `nycflights13::flights`
 flights %>%
-    distinct(month) %>%
+    distinct(month) %>% 
     show_query()
 
 # SELECT COUNT(*) FROM table; show number of rows
@@ -85,12 +85,6 @@ flights %>%
     show_query()
 
 # SELECT COUNT(DISTINCT month) FROM flights;
-flights %>%
-    count(month) %>%
-    summarize(n()) %>%
-    show_query()
-
-# or
 
 flights %>%
     distinct(month) %>%
@@ -127,15 +121,28 @@ flights %>%
     filter(month==1) %>%
     show_query()
 
-# <SQL>
-# SELECT *
-# FROM (SELECT `month`, `sched_arr_time`
-# FROM `nycflights13::flights`)
-# WHERE (`month` = 1.0 AND `sched_arr_time` > 1000.0)
+# SELECT c1,c2 FROM table
+# WHERE conditions
+# ORDER BY c1 ASC, c2 DESC
+
 flights %>%
-    select(month, sched_arr_time) %>%
-    filter(month==1 & sched_arr_time > 1000) %>%
+    filter(month==1) %>%
+    select(month, dep_time) %>%
+    arrange(month, desc(dep_time)) %>%
     show_query()
+
+
+
+# <SQL>
+# SELECT `month`, `sched_arr_time`
+# FROM `nycflights13::flights`
+# WHERE (`month` = 1.0 AND `sched_arr_time` > 1000.0)
+
+flights %>%
+    filter(month==1 & sched_arr_time > 1000) %>%
+    select(month, sched_arr_time) %>%
+    show_query()
+
 
 # NOTE one advantage SQL > R
 # in SQL, you can select one column, but filter conditionally from values in other columns
@@ -150,8 +157,8 @@ SELECT COUNT(*) FROM flights
 WHERE month = 1 AND sched_arr_time > 1000;
 
 flights %>%
-    select(month, sched_arr_time) %>%
     filter(month==1 & sched_arr_time > 1000) %>%
+    select(month, sched_arr_time) %>%
     summarize(n()) %>%
     show_query()
 
@@ -159,10 +166,18 @@ SELECT COUNT(*) FROM film
 WHERE rating='R' OR rating='PG-13';
 
 flights %>%
-    select(month, arr_time, sched_arr_time) %>%
     filter(arr_time < 900 | sched_arr_time < 900) %>%
+    select(month, arr_time, sched_arr_time) %>%
     summarize(n()) %>%
     show_query()
+
+
+flights %>%
+    filter(arr_time > 900 & sched_arr_time < 500) %>%
+    # select(arr_time, sched_arr_time) %>%
+    summarize(n()) %>%
+    show_query()
+
 
 SELECT * FROM film
 WHERE rating !='R';
@@ -194,6 +209,12 @@ WHERE title = 'Outlaw Hanky';
 film %>%
     select(title, description) %>%
     filter(title == "Outlaw Hanky")
+
+airports %>%
+    filter(name == 'Lansdowne Airport') %>%
+    select(lat) %>%
+    show_query()
+
 
 SELECT phone FROM address
 WHERE address = '259 Ipoh Drive';
@@ -246,8 +267,8 @@ airports %>%
 # LIMIT 6
 
 flights %>%
-    arrange(desc(month), desc(day)) %>%
-    head() %>%
+    arrange(desc(month), day) %>%
+    head(n = 8) %>%
     show_query()
 
 
@@ -299,7 +320,7 @@ LIMIT 10
 airports %>%
     filter(alt > 2000) %>%
     arrange(desc(faa)) %>%
-    select(name) %>%
+    #select(name) %>%
     head(n=10) %>%
     show_query()
 
@@ -316,9 +337,9 @@ SELECT * FROM payment
 WHERE payment_date BETWEEN '2007-02-01' AND '2007-02-15'
 
 flights %>%
-    filter(month==2) %>%
+    #filter(month==2) %>%
     filter(day > 1 & day < 15) %>%
-    select(dep_time) %>%
+    #select(dep_time) %>%
     show_query()
 
 
