@@ -17,6 +17,9 @@ library(dbplyr)
 # Advantage SQL > R - SELECT single_column FROM table WHERE condition_from_other_columns
 # CHALLENGE SELECT WHERE
 # In dplyr use filter() before select() to get closest SELECT FROM WHERE results to SQL
+# SELECT col1, col2 FROM table ORDER BY col1 ASC / DESC
+# SELECT * FROM table ORDER BY col1 DESC LIMIT 5
+
 
 
 
@@ -179,11 +182,86 @@ SELECT phone FROM address
 WHERE address = '259 Ipoh Drive';
 
 # In dplyr use filter() before select() to get closest SELECT FROM WHERE results to SQL
+# <SQL>
+# SELECT `month`, `day`
+# FROM `nycflights13::flights`
+# WHERE (`sched_arr_time` = 1022.0)
+
 flights %>%
     filter(sched_arr_time==1022) %>%
     select(month, day) %>%
     show_query()
 
+
+SELECT * FROM customer
+ORDER BY first_name DESC;
+
+# <SQL>
+# SELECT *
+# FROM `nycflights13::airports`
+# ORDER BY `tzone` DESC
+
+airports %>%
+    arrange(desc(tzone)) %>%
+    show_query()
+
+# ORDER BY TWO COLUMNS
+SELECT store_id, first_name, last_name FROM customer
+ORDER BY store_id DESC, first_name ASC;
+
+
+# <SQL>
+# SELECT `faa`, `name`, `lat`
+# FROM `nycflights13::airports`
+# ORDER BY `faa` DESC, `name`
+
+airports %>%
+    select(faa, name, lat) %>%
+    arrange(desc(faa), name) %>%
+    show_query()
+
+# SELECT * FROM table ORDER BY col1 DESC LIMIT 5
+
+# <SQL>
+# SELECT *
+# FROM `nycflights13::flights`
+# ORDER BY `month` DESC, `day` DESC
+# LIMIT 6
+
+flights %>%
+    arrange(desc(month), desc(day)) %>%
+    head() %>%
+    show_query()
+
+
+
+# SELECT * FROM table 
+# WHERE col3 != 0.00 
+# ORDER BY col1 DESC 
+# LIMIT 5
+
+# <SQL>
+# SELECT *
+# FROM `nycflights13::flights`
+# WHERE (`month` != 1.0)
+# ORDER BY `month`, `day` DESC
+# LIMIT 6
+
+flights %>%
+    filter(month != 1) %>%
+    arrange(month, desc(day)) %>%
+    head() %>%
+    show_query()
+
+# SEE GENERAL LAYOUT OF TABLE
+# <SQL>
+# SELECT *
+# FROM `nycflights13::flights`
+# LIMIT 1
+
+flights %>%
+    head(n = 1) %>%
+    show_query()
 
 
 
