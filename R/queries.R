@@ -10,6 +10,10 @@ library(dbplyr)
 # SELECT columns FROM table;
 # SELECT col1, col2 FROM table;
 # SELECT DISTINCT(column) FROM table;
+# SELECT COUNT(col) FROM table; -- more useful when combined with DISTINCT
+# SELECT COUNT(*) FROM table; show number of rows
+
+
 
 # Challenge: SELECT
 # Business Situation: send promotional email to all existing customers
@@ -48,7 +52,29 @@ flights %>%
     distinct(month) %>%
     show_query()
 
+# SELECT COUNT(*) FROM table; show number of rows
+# note: in regular dataframe, use str() or dim(), 
+# but in database, use summarize(n()) 
+flights %>%
+    summarize(n()) %>%
+    show_query()
 
+
+# NOTE: count() != summarize(n())
+# Count membership of group, NOT number of rows
+# <SQL>
+# SELECT `month`, COUNT() AS `n`
+# FROM `nycflights13::flights`
+# GROUP BY `month`
+
+flights %>% 
+    group_by(month) %>%
+    tally() %>%
+    show_query()
+
+flights %>%
+    count(month) %>%
+    show_query()
 
 
 
