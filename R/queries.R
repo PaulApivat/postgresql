@@ -19,7 +19,22 @@ library(dbplyr)
 # In dplyr use filter() before select() to get closest SELECT FROM WHERE results to SQL
 # SELECT col1, col2 FROM table ORDER BY col1 ASC / DESC
 # SELECT * FROM table ORDER BY col1 DESC LIMIT 5
+# BETWEEN operator is same as `>= low AND <= high`
+# BETWEEN 'YYYY-MM-DD' AND 'YYYY-MM-DD'
 
+
+
+# SELECT * FROM 
+# WHERE
+# ORDER BY
+# LIMIT
+
+# filter
+# arrange
+# select
+# head
+
+# 
 
 
 
@@ -262,6 +277,57 @@ flights %>%
 flights %>%
     head(n = 1) %>%
     show_query()
+
+# CHALLENGE ORDER BY
+
+SELECT customer_id FROM payment
+WHERE amount > 0
+ORDER BY payment_date
+LIMIT 10
+
+# <SQL>
+# SELECT `name`
+# FROM (SELECT *
+# FROM (SELECT *
+# FROM `nycflights13::airports`
+# WHERE (`alt` > 2000.0))
+# ORDER BY `faa` DESC)
+# LIMIT 10
+
+airports %>%
+    filter(alt > 2000) %>%
+    arrange(desc(faa)) %>%
+    select(name) %>%
+    head(n=10) %>%
+    show_query()
+
+# BETWEEN Operator can use NOT and AND
+
+SELECT * FROM payment
+WHERE amount BETWEEN 8 AND 9
+
+SELECT * FROM payment
+WHERE amount NOT BETWEEN 8 AND 9
+
+# includes Date and hour, mins
+SELECT * FROM payment
+WHERE payment_date BETWEEN '2007-02-01' AND '2007-02-15'
+
+flights %>%
+    filter(month==2) %>%
+    filter(day > 1 & day < 15) %>%
+    select(dep_time) %>%
+    show_query()
+
+
+# SELECT WHERE IN
+SELECT * FROM customer
+WHERE first_name IN ('John', 'Jake', 'Julie')
+
+airports %>% 
+    filter(tzone %in% c("America/New_York", "America/Los_Angeles")) %>% 
+    show_query()
+
 
 
 
