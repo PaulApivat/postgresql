@@ -14,6 +14,10 @@ library(dbplyr)
 # SELECT COUNT(*) FROM table; show number of rows
 # SELECT COUNT(DISTINCT column_value) FROM table;
 # SELECT col1, col2 FROM table WHERE conditions;
+# Advantage SQL > R - SELECT single_column FROM table WHERE condition_from_other_columns
+# CHALLENGE SELECT WHERE
+# In dplyr use filter() before select() to get closest SELECT FROM WHERE results to SQL
+
 
 
 # Challenge: SELECT
@@ -102,6 +106,84 @@ flights %>%
     select(month, dep_time) %>%
     filter(month==1) %>%
     show_query()
+
+# <SQL>
+# SELECT *
+# FROM (SELECT `month`, `sched_arr_time`
+# FROM `nycflights13::flights`)
+# WHERE (`month` = 1.0 AND `sched_arr_time` > 1000.0)
+flights %>%
+    select(month, sched_arr_time) %>%
+    filter(month==1 & sched_arr_time > 1000) %>%
+    show_query()
+
+# NOTE one advantage SQL > R
+# in SQL, you can select one column, but filter conditionally from values in other columns
+# in R, you'd need to select ALL columns you'd want to use - even for filtering
+
+SELECT title FROM film
+WHERE rental_rate > 4 AND replacement_cost >= 19.99
+AND rating='R';
+
+
+SELECT COUNT(*) FROM flights
+WHERE month = 1 AND sched_arr_time > 1000;
+
+flights %>%
+    select(month, sched_arr_time) %>%
+    filter(month==1 & sched_arr_time > 1000) %>%
+    summarize(n()) %>%
+    show_query()
+
+SELECT COUNT(*) FROM film
+WHERE rating='R' OR rating='PG-13';
+
+flights %>%
+    select(month, arr_time, sched_arr_time) %>%
+    filter(arr_time < 900 | sched_arr_time < 900) %>%
+    summarize(n()) %>%
+    show_query()
+
+SELECT * FROM film
+WHERE rating !='R';
+
+flights %>%
+    select(everything()) %>%
+    filter(month != 1) %>%
+    summarize(n()) %>%
+    show_query()
+
+# CHALLENGE SELECT WHERE
+# What is the email for customer named Nancy Thomas
+
+SELECT email FROM customer
+WHERE first_name='Nancy' AND last_name='Thomas';
+
+customer %>%
+    select(email, first_name, last_name) %>%
+    filter(first_name == 'Nancy' & last_name == 'Thomas')
+
+flights %>%
+    select(month, day, arr_time) %>%
+    filter(month==2 & day==2) %>%
+    show_query()
+
+SELECT description FROM film
+WHERE title = 'Outlaw Hanky';
+
+film %>%
+    select(title, description) %>%
+    filter(title == "Outlaw Hanky")
+
+SELECT phone FROM address
+WHERE address = '259 Ipoh Drive';
+
+# In dplyr use filter() before select() to get closest SELECT FROM WHERE results to SQL
+flights %>%
+    filter(sched_arr_time==1022) %>%
+    select(month, day) %>%
+    show_query()
+
 
 
 
