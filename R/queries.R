@@ -12,6 +12,7 @@ library(dbplyr)
 # SELECT DISTINCT(column) FROM table;
 # SELECT COUNT(col) FROM table; -- more useful when combined with DISTINCT
 # SELECT COUNT(*) FROM table; show number of rows
+# SELECT COUNT(DISTINCT column_value) FROM table;
 
 
 
@@ -59,6 +60,18 @@ flights %>%
     summarize(n()) %>%
     show_query()
 
+# SELECT COUNT(DISTINCT month) FROM flights;
+flights %>%
+    count(month) %>%
+    summarize(n()) %>%
+    show_query()
+
+# or
+
+flights %>%
+    distinct(month) %>%
+    summarize(n()) %>%
+    show_query()
 
 # NOTE: count() != summarize(n())
 # Count membership of group, NOT number of rows
