@@ -58,6 +58,7 @@ flights %>%
     select(contains("delay")) %>%
     show_query()
 
+
 # <SQL>
 # SELECT `year`, `month`, `day`, `dep_time`, `sched_dep_time`, `dep_delay`, `arr_time`, `sched_arr_time`, `arr_delay`, `carrier`, `flight`, `tailnum`, `origin`, `dest`, `air_time`, `distance`, `hour`, `minute`, `time_hour`
 # FROM `nycflights13::flights`
@@ -379,6 +380,17 @@ WHERE first_name ILIKE '%er%'
 SELECT * FROM customer
 WHERE first_name LIKE 'A%' AND last_name NOT LIKE 'B%'
 ORDER BY last_name
+
+airports %>%
+    collect() %>%
+    filter(str_detect(name, 'er'))
+
+library(data.table)
+
+airports %>%
+    collect() %>%
+    filter(name %like% 'ff')
+
 
 # GENERAL CHALLENGE
 
