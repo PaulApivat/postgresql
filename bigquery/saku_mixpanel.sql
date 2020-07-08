@@ -69,6 +69,43 @@ ORDER BY last_seen ASC
 SELECT * FROM `jobsbot-276604.saku_mixpanel.mixpanel_engage` 
 ORDER BY last_seen DESC
 
+# When was the most recent subscribed? (2020-07-06) (Anemone Fedora)
 
+SELECT * FROM `jobsbot-276604.saku_mixpanel.mixpanel_engage` 
+ORDER BY subscribed DESC
 
+# When was the first subscribed? (2020-05-17) (Ninyawee Nutchanon)
 
+SELECT * FROM `jobsbot-276604.saku_mixpanel.mixpanel_engage` 
+ORDER BY subscribed ASC
+
+# How many people have 'true' for is_followup_enabled (everyone 161)
+
+SELECT COUNT(is_followup_enabled) FROM `jobsbot-276604.saku_mixpanel.mixpanel_engage` 
+WHERE is_followup_enabled = true
+
+# How many distinct languages have been used to interact with jobsbot? (English, Thai, Vietnamese)
+
+SELECT DISTINCT(language) FROM `jobsbot-276604.saku_mixpanel.mixpanel_engage`
+
+# How many users for each of the languages?
+Thai: 99
+English: 61
+Vietnamese: 1
+
+SELECT COUNT(language) FROM `jobsbot-276604.saku_mixpanel.mixpanel_engage` 
+WHERE language = 'Vietnamese'
+
+# How many distinct last_input_text are there? (11)
+
+✔️ข้อมูลถูกต้องแล้ว  140
+ส่งประวัติการทำงาน มาที่ e-mail peerapon@grandhomemart.com
+ใช่
+เจ้าของกิจการ
+ผู้จัดการแผนก
+ต่ออีก 1 วัน✔️
+https://cdn.fbsbx.com/v/t59.2708-21/100753090_1113262515723786_3064732630558703616_n.xlsx/2017-%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B9%87%E0%B8%AD%E0%B8%84.xlsx?_
+Resume, Transcript
+ส่งประวัติและทรานสคิป
+อื่นๆ
+26
