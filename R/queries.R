@@ -594,6 +594,12 @@ WHERE customer_id NOT IN (184, 87, 477)
 GROUP BY customer_id
 HAVING SUM(amount) > 100
 
+flights %>%
+    filter(!(month %in% c(5,7,9))) %>%
+    group_by(month) %>%
+    summarize(sum_dep_time = sum(dep_time)) %>%
+    filter(sum_dep_time < 37000000)
+    
 
 SELECT store_id, COUNT(customer_id) FROM customer
 GROUP BY store_id

@@ -189,4 +189,41 @@ table %>%
     summarize(sum_c3 = sum(c3)) %>%
     arrange(c1)
 
+#----------#
+# HAVING   #
+#----------#
 
+# SQL HAVING - to filter after GROUP BY
+
+# note: before GROUP BY, use WHERE 
+# but after GROUP BY, use HAVING
+SELECT c1, SUM(c2) FROM table
+GROUP BY c1
+HAVING SUM(c2) > 600
+
+# R equivalent
+# dplyr is more flexible here 
+# you can use filter() before and after group_by()
+
+table %>%
+    group_by(c1) %>%
+    summarize(sum_c2 = sum(c2)) %>%
+    filter(sum_c2 > 600)
+
+
+# SQL 
+# note: WHERE before GROUP BY & HAVING after GROUP BY
+SELECT c1, SUM(c2) FROM table
+WHERE c1 NOT IN (184, 87, 477)
+GROUP BY c1
+HAVING SUM(c2) > 100
+
+
+# R 
+# note ! in front of c1 %in% c(184, 87, 477)
+# no distinction between WHERE and HAVING - use filter() for both
+table %>%
+    filter(!(c1 %in% c(184, 87, 477))) %>%
+    group_by(c1) %>%
+    summarize(sum_c2 = sum(c2)) %>%
+    filter(sum_c2 > 100)
