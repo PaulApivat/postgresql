@@ -54,3 +54,39 @@ GROUP BY curriculum
 ORDER BY num DESC
 LIMIT 1000 
 
+# How many JobAnnounce_Qualification_ComputerSkill is not null? 319 rows (out of 6428)
+
+SELECT JobAnnounce_Qualification_ComputerSkill
+FROM `jobsbot-276604.jobsbot.smartjob` 
+WHERE JobAnnounce_Qualification_ComputerSkill is not null
+LIMIT 1000 
+
+
+
+# How many JobAnnouncement_Qualification_ComputerSkill contains "microsoft office"? 73
+
+SELECT JobAnnounce_Qualification_ComputerSkill 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+WHERE UPPER(JobAnnounce_Qualification_ComputerSkill) LIKE UPPER('%Microsoft Office%')
+LIMIT 1000 
+
+# How many JobAnnounce_Qualification_ComputerSkill contain "excel"? 90 
+# contains: "word"? 78 "power point" 9, "powerpoint" 20, "SAP" 3, "คอม" 70 (no surprise), "พื้นฐาน" (basic) 57
+
+SELECT JobAnnounce_Qualification_ComputerSkill 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+WHERE UPPER(JobAnnounce_Qualification_ComputerSkill) LIKE UPPER('%Excel%')
+LIMIT 1000 
+
+
+# Explore JOB descriptions
+
+SELECT DISTINCT( JobAnnounce_JobDescription ) AS jd, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jd  
+ORDER BY num DESC
+LIMIT 1000
+
+
+
+
