@@ -5,7 +5,7 @@
 *JobPosition (ie thai v eng; พนักงาน, วิศวกร, เจ้าหน้าที่, ช่าง)
 - JobAnnounce Qualifications
 *ComputerSkill
-
+*CurriculumName
 *
 - JobAnnounce Condition
 - JobAnnounce Interview
@@ -37,3 +37,20 @@ FROM `jobsbot-276604.jobsbot.smartjob`
 GROUP BY distinct_degree 
 ORDER BY num DESC
 LIMIT 1000
+
+
+
+1   null 5616
+2	ไม่จำกัดวุฒิ 247
+3	การบัญชี 91
+4	ไฟฟ้ากำลัง 75
+5	ยานยนต์ 30
+6	การตลาด 17
+7	เครื่องกลอุตสาหกรรม 15
+
+SELECT DISTINCT(JobAnnounce_Qualification_CurriculumName) AS curriculum, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY curriculum 
+ORDER BY num DESC
+LIMIT 1000 
+
