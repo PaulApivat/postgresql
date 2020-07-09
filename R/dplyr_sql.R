@@ -98,3 +98,48 @@ library(data.table)
 table %>%
      collect() %>%
      filter(name %like% 'ff')
+
+###----------------###
+# AGGREGATE FUNCTION #
+###----------------###
+
+# SQL Aggregate Functions
+
+# MIN
+SELECT MIN(c1) FROM table
+# MAX
+SELECT MAX(c1) FROM table
+# SUM
+SELECT SUM(c1) FROM table
+# COUNT
+SELECT COUNT(c1) FROM table
+# AVG (2 decimal)
+SELECT ROUND(AVG(c1),2) FROM table
+
+
+# R Equivalent 
+
+# MIN
+table %>%
+    summarize(min_c1 = min(c1))
+# MAX
+table %>%
+    summarize(max_c1 = max(c1))
+# SUM
+table %>%
+    summarize(sum_c1 = sum(c1))
+
+# COUNT (and some alternatives)
+table %>%
+    select(c1) %>%
+    summarize(n())
+
+table %>%
+    summarize(count_c1 = count(c1))
+
+
+# AVG / MEAN
+table %>%
+    summarize(mean_c1 = mean(c1))
+
+
