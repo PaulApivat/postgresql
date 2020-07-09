@@ -431,7 +431,7 @@ WHERE title LIKE '%Truman%'
 
 # GROUP BY Statements ----
 
-# Aggregate Functions
+#### Aggregate Functions
 - AVG() 
 - ROUND(AVG())
 - COUNT()
@@ -483,7 +483,7 @@ airports %>%
 airports %>%
     summarize(mean_lat = mean(lat))
     
-# GROUP BY STATEMENTS
+###### GROUP BY STATEMENTS
 
 # SQL GROUP BY
 
@@ -567,6 +567,56 @@ flights %>%
 
 # TO group_by date in R, need lubridate package for 
 # time stamp conversion to date / dttm 
+
+###### SQL HAVING
+## filter AFTER GROUP BY
+## CANNOT use WHERE AFTER GROUP BY
+
+SELECT rating, SUM(rental_rate) FROM film
+GROUP BY rating
+HAVING SUM(rental_rate) > 600
+
+
+SELECT customer_id, SUM(amount) FROM payment
+WHERE customer_id NOT IN (184, 87, 477)
+GROUP BY customer_id
+HAVING SUM(amount) > 100
+
+
+SELECT store_id, COUNT(customer_id) FROM customer
+GROUP BY store_id
+HAVING COUNT(customer_id) > 300
+
+
+
+# R Equivalent of HAVING
+# You can use filter() for BOTH WHERE AND HAVING
+# the only difference is filtering-as-HAVING has to come after summarize()
+# where the new variable is created
+flights %>%
+    group_by(day) %>%
+    filter(day < 10) %>%
+    summarize(sum_dep_time = sum(dep_time)) %>%
+    filter(sum_dep_time > 15000000)
+
+# HAVING clause CHALLENGE
+
+# Customers with 40 or more transaction count get platinum status,
+# which customer_ids should get platinum status?
+SELECT customer_id, COUNT(*) FROM payment
+GROUP BY customer_id
+HAVING COUNT(*) >= 40
+
+# What customer_ids who have spent more than $100 in payment transactions
+# with staff_id member 2?
+
+SELECT customer_id, staff_id, SUM(amount) FROM payment
+WHERE staff_id != 1
+GROUP BY staff_id, customer_id
+HAVING SUM(amount) > 100
+
+
+
 
 
 
