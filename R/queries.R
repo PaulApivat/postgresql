@@ -686,7 +686,7 @@ SELECT customer_id, amount AS new_name
 FROM payment
 WHERE new_name > 2
 
-## JOINS
+####### JOINS
 ## NOTE: The main reason for the different JOIN types 
 ## is to decide how to deal with information only present in ONE of the joined tables
 
@@ -735,6 +735,50 @@ SELECT film.film_id, title, inventory_id, store_id FROM film
 LEFT JOIN inventory ON
 inventory.film_id = film.film_id
 WHERE inventory.film_id IS null
+
+## RIGHT JOIN
+## essentially same as LEFT JOIN, but switch tables around
+SELECT * FROM TableA    
+RIGHT OUTER JOIN TableB   
+ON TableA.col_match = TableB.col_match 
+
+## WHERE statement add for exclusivity of Table B (NOT found in Table A)
+SELECT * FROM TableA 
+RIGHT OUTER JOIN TableB  
+ON TableA.col_match = TableB.col_match  
+WHERE TableA.id IS null 
+
+## UNION --> rbind()
+
+## JOIN Challenge Tasks
+
+# What are the emails of customers who live in California?
+
+# Join address and customer table
+# Select district (from address) and email (from customer); both unique so no need to specify
+# INNER JOIN address & customer (order doesn't matter, symmetrical)
+# ON address.address_id = customer.address_id 
+# filter WHERE district = 'California'
+SELECT district, email FROM address
+INNER JOIN customer 
+ON address.address_id = customer.address_id 
+WHERE district = 'California'
+
+# Get a list of movies "Nick Wahlberg" has been in
+SELECT title, first_name, last_name FROM film_actor
+LEFT JOIN actor
+ON actor.actor_id = film_actor.actor_id
+INNER JOIN film
+ON film.film_id = film_actor.film_id
+WHERE first_name = 'Nick' AND last_name = 'Wahlberg'
+
+# Can also do Two INNER JOINS or LEFT JOINS 
+SELECT title, first_name, last_name FROM film_actor
+INNER JOIN actor
+ON actor.actor_id = film_actor.actor_id
+INNER JOIN film
+ON film.film_id = film_actor.film_id
+WHERE first_name = 'Nick' AND last_name = 'Wahlberg'
 
 
 
