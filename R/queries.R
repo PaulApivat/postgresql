@@ -483,6 +483,91 @@ airports %>%
 airports %>%
     summarize(mean_lat = mean(lat))
     
+# GROUP BY STATEMENTS
+
+# SQL GROUP BY
+
+SELECT c1 FROM table
+GROUP BY c1
+
+# SQL GROUP BY with SUM and ORDER BY
+
+SELECT c1, SUM(c2) FROM table
+GROUP BY c1 
+ORDER BY SUM(c2)
+
+# SQL GROUP BY with COUNT and ORDER BY
+
+SELECT c1, COUNT(c2) FROM table
+GROUP BY c1 
+ORDER BY COUNT(c2)
+
+# SQL GROUP BY TWO COLUMNS with SUM and ORDER BY
+SELECT c1, c2, SUM(c3) FROM table
+GROUP BY c2, c1
+ORDER BY c1
+
+# SQL GROUP BY DATE - require using DATE() function
+# DATE() extracts date from Time Stamp
+SELECT DATE(payment_date), SUM(amount) FROM payment
+GROUP BY DATE(payment_date)
+ORDER BY SUM(amount) DESC
+
+# SQL GROUP BY CHALLENGE
+
+# Which staff should get a bonus based on number of handled transactions
+SELECT staff_id, COUNT(payment_date) FROM payment
+GROUP BY staff_id
+
+# What are the average replacement costs by film ratings?
+SELECT rating, ROUND(AVG(replacement_cost),2) FROM film
+GROUP BY rating
+
+# What are the customer ids of the top 5 customers by total spend?
+SELECT customer_id, SUM(amount) FROM payment
+GROUP BY customer_id
+ORDER BY SUM(amount) DESC
+LIMIT 5
+
+
+
+# R GROUP BY
+
+# subtle differences between distinct() AND group_by() w/ tally() AND count() w/ arrange()
+airports %>%
+    distinct(tzone)
+
+airports %>%
+    group_by(tzone) %>%
+    tally(sort = TRUE)
+
+airports %>%
+    count(tzone) %>%
+    arrange(desc(n))
+
+# R GROUP BY with SUM and ORDER BY (arrange)
+airports %>%
+    group_by(tzone) %>%
+    summarize(sum_alt = sum(alt)) %>%
+    arrange(desc(sum_alt))
+
+# R GROUP BY with COUNT and ORDER BY (arrange)
+airports %>%
+    group_by(tzone) %>%
+    summarize(count_lat = count(lat), sum_lat = sum(lat)) %>%
+    arrange(desc(sum_lat))
+
+# R GROUP BY  TWO COLUMNS with SUM - - 
+# key to mirroring ORDER BY in SQL is to use arrange()
+# can arrange() by three columns here
+flights %>%
+    group_by(month, day) %>%
+    summarize(sum_dep_time = sum(dep_time)) %>%
+    arrange(sum_dep_time)
+
+# TO group_by date in R, need lubridate package for 
+# time stamp conversion to date / dttm 
+
 
 
 
