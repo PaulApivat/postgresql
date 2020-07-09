@@ -641,11 +641,105 @@ ORDER BY customer_id DESC
 LIMIT 1
 
 
-
-
-
-
 # JOINS ----
+
+#### AS statement
+
+# SQL
+SELECT c1 AS c2 FROM table;
+
+# R
+flights %>%
+    mutate(monthly = month) %>%
+    select(monthly)
+
+# SQL
+SELECT SUM(c1) AS c2 FROM table
+
+# R
+flights %>%
+    summarize(sum_day = sum(day))
+
+## Alias can only be used in SELECT statements
+
+# This Works
+SELECT customer_id, SUM(amount) AS total_spent
+FROM payment
+GROUP BY customer_id
+HAVING SUM(amount) > 100
+
+# This DOES NOT work 
+# (because Alias exists at very end, as data output, cannot filter w them)
+SELECT customer_id, SUM(amount) AS total_spent
+FROM payment
+GROUP BY customer_id
+HAVING total_spent > 100
+
+# This works
+SELECT customer_id, amount AS new_name
+FROM payment
+WHERE amount > 2
+
+# This does NOT work
+# ALIAS does nOT work outside of SELECT
+SELECT customer_id, amount AS new_name
+FROM payment
+WHERE new_name > 2
+
+## JOINS
+## NOTE: The main reason for the different JOIN types 
+## is to decide how to deal with information only present in ONE of the joined tables
+
+## INNER JOIN (rows exist in BOTH Table A and Table B)
+## INNER JOIN is symmetrical venn diagram
+SELECT * FROM tableA
+INNER JOIN tableB
+ON tableA.col_match = tableB.col_match
+
+tableA %>%
+    inner_join(tableB, by = '.col_match')
+
+SELECT payment_id, payment.customer_id, first_name 
+FROM payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+
+## FULL OUTER JOINS
+SELET * FROM tableA 
+FULL OUTER JOIN tableB 
+ON tableA.col_match = tableB.col_match 
+
+# New Privacy Law situation: 
+# We don't want any customer_id for someone who has NOT made a payment
+SELECT * FROM customer
+FULL OUTER JOIN payment
+ON customer.customer_id = payment.customer_id
+WHERE customer.customer_id IS null 
+OR payment.payment_id IS null
+
+## LEFT JOIN / LEFT OUTER JOIN
+## venn diagram no longer symmetrical
+## ORDER MATERS!!
+## NOT returning anything exclusive to Table B
+
+
+## WHERE statement add for unique to Table A (NOT found in Table B)
+SELECT * FROM TableA 
+LEFT OUTER JOIN TableB 
+ON TableA.col_match = TableB.col_match 
+WHERE TableB.id IS null
+
+## LEFT JOIN 
+## note: title, inventory_id, store_id are unique, no need to specify table 
+SELECT film.film_id, title, inventory_id, store_id FROM film
+LEFT JOIN inventory ON
+inventory.film_id = film.film_id
+WHERE inventory.film_id IS null
+
+
+
+
+
 
 # Advanced SQL ----
 
