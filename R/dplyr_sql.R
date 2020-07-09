@@ -142,4 +142,51 @@ table %>%
 table %>%
     summarize(mean_c1 = mean(c1))
 
+#----------#
+# GROUP BY #
+#----------#
+
+# SQL GROUP BY
+SELECT c1 FROM table
+GROUP BY c1
+
+# R equivalent
+# note: not using select() actually yields more information here
+
+table %>%
+    group_by(c1) %>%
+    tally(sort = TRUE) %>%
+    select(c1)  			# this line: optional
+
+# the count() is group_by() and tally() without sort = TRUE
+table %>%
+    count(c1)
+
+
+# SQL GROUP BY with SUM and ORDER BY (descending order)
+SELECT c1, SUM(c2) FROM table
+GROUP BY c1 
+ORDER BY SUM(c2) DESC
+
+
+# R equivalent (descending) 
+table %>%
+    group_by(c1) %>%
+    summarize(sum_c2 = sum(c2)) %>%
+    arrange(desc(sum_c2))
+
+
+
+# SQL GROUP BY TWO COLUMNS with SUM and ORDER BY
+SELECT c1, c2, SUM(c3) FROM table
+GROUP BY c2, c1
+ORDER BY c1
+
+
+# R equivalent
+table %>%
+    group_by(c1, c2) %>%
+    summarize(sum_c3 = sum(c3)) %>%
+    arrange(c1)
+
 

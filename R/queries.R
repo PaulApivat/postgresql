@@ -539,6 +539,11 @@ airports %>%
 
 airports %>%
     group_by(tzone) %>%
+    tally(sort = TRUE) %>%
+    select(tzone) 
+
+airports %>%
+    group_by(tzone) %>%
     tally(sort = TRUE)
 
 airports %>%
@@ -556,6 +561,7 @@ airports %>%
     group_by(tzone) %>%
     summarize(count_lat = count(lat), sum_lat = sum(lat)) %>%
     arrange(desc(sum_lat))
+
 
 # R GROUP BY  TWO COLUMNS with SUM - - 
 # key to mirroring ORDER BY in SQL is to use arrange()
@@ -575,6 +581,12 @@ flights %>%
 SELECT rating, SUM(rental_rate) FROM film
 GROUP BY rating
 HAVING SUM(rental_rate) > 600
+
+flights %>%
+    group_by(month) %>%
+    summarize(sum_dep_time = sum(dep_time)) %>%
+    filter(month > 6)
+    #filter(sum_dep_time > 38000000)
 
 
 SELECT customer_id, SUM(amount) FROM payment
