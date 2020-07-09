@@ -431,6 +431,61 @@ WHERE title LIKE '%Truman%'
 
 # GROUP BY Statements ----
 
+# Aggregate Functions
+- AVG() 
+- ROUND(AVG())
+- COUNT()
+- MAX()
+- MIN()
+- SUM()
+
+# SQL Aggregate Functions
+
+# MIN
+SELECT MIN(c1) FROM table
+# MAX
+SELECT MAX(c1) FROM table
+# SUM
+SELECT SUM(c1) FROM table
+# COUNT
+SELECT COUNT(c1) FROM table
+# AVG (2 decimal)
+SELECT ROUND(AVG(c1),2) FROM table
+
+# R Equivalent of Aggregate Functions summarize()
+
+# MIN
+airports %>%
+    summarize(min_lat = min(lat))
+# MAX
+airports %>%
+    summarize(max_lat = max(lat))
+# SUM
+airports %>%
+    summarize(sum_lat = sum(lat))
+# COUNT (four alternatives)
+airports %>%
+    select(lat) %>%
+    summarize(n())
+
+airports %>%
+    summarize(count_lat = count(lat))
+
+airports %>%
+    collect() %>%
+    nrow()
+
+airports %>% 
+    collect() %>%
+    view()
+
+# AVG / MEAN
+airports %>%
+    summarize(mean_lat = mean(lat))
+    
+
+
+
 # Assessment Test 1 ----
 
 # JOINS ----
