@@ -119,6 +119,14 @@ GROUP BY jfn
 ORDER BY num DESC
 LIMIT 1000 
 
+# What are the top 5 JobAnnounce_JobPositionName in the postings? (out of 6428)
+
+SELECT DISTINCT( JobAnnounce_JobPositionName ) AS jpn, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jpn
+ORDER BY num DESC
+LIMIT 1000 
+
 
 
 
@@ -133,14 +141,11 @@ LIMIT 1000
 
 
 
-
-
 #############################################################
 ######          JobAnnounce, Qualifications            ######
 #############################################################
 
-
-
+# WHat is the top 5 degree requirements? 
 
 # Count of distinct degree requirements
 # DISTINT(JobAnnounce_Qualification_DegreeName)
@@ -164,6 +169,17 @@ ORDER BY num DESC
 LIMIT 1000
 
 
+# What are the top 5 MAX degree requirement? JobAnnounce_Qualification_DegreeName_Max
+
+SELECT DISTINCT( JobAnnounce_Qualification_DegreeName_Max ) AS dnmax, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY dnmax
+ORDER BY num DESC
+LIMIT 1000 
+
+
+# What are the top-5 curriculum name mentioned in job postings? JobAnnounce_Qualification_CurriculumName
+
 
 1   null 5616
 2	ไม่จำกัดวุฒิ 247
@@ -178,6 +194,77 @@ FROM `jobsbot-276604.jobsbot.smartjob`
 GROUP BY curriculum 
 ORDER BY num DESC
 LIMIT 1000 
+
+# What are the top 5 curriculum name MAX mentioned in job posting? JobAnnounce_Qualification_CurriculumName_Max
+
+SELECT DISTINCT( JobAnnounce_Qualification_CurriculumName_Max ) AS cnmax, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY cnmax
+ORDER BY num DESC
+LIMIT 1000 
+
+
+# Cannot be ranked: What form of transportation is mentioned most often in these job postings?
+
+SELECT DISTINCT( JobAnnounce_Qualification_DrivingLicense ) AS drive, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY drive
+ORDER BY num DESC
+LIMIT 1000 
+
+# What personality description is mentioned most often in these job postings? 
+
+SELECT DISTINCT( JobAnnounce_Qualification_Personality ) AS personality, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY personality
+ORDER BY num DESC
+LIMIT 1000 
+
+SELECT JobAnnounce_Qualification_Personality 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+WHERE UPPER(JobAnnounce_Qualification_Personality) LIKE UPPER('%บุคลิก%')
+LIMIT 1000 
+
+# What special qualifications are mentioned most often in these job postings? 
+# JobAnnounce_Qualification_SpecialQualification
+
+SELECT DISTINCT( JobAnnounce_Qualification_SpecialQualification ) AS special, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY special
+ORDER BY num DESC
+LIMIT 1000 
+
+SELECT JobAnnounce_Qualification_SpecialQualification 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+WHERE UPPER(JobAnnounce_Qualification_SpecialQualification) LIKE UPPER('%คอมพิวเตอร์%')
+LIMIT 1000 
+
+# What the top 5 most frequent HEIGHT requirement? JobAnnounce_Qualification_Height
+
+SELECT DISTINCT( JobAnnounce_Qualification_Height ) AS height, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY height
+ORDER BY num DESC
+LIMIT 1000 
+
+
+# What the top 5 most frequent WEIGHT requirement? JobAnnounce_Qualification_Weight 
+
+SELECT DISTINCT( JobAnnounce_Qualification_Weight ) AS weight, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY weight
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the top mentioned grade requirements in the posting? JobAnnounce_Qualification_Grade
+
+SELECT DISTINCT( JobAnnounce_Qualification_Grade ) AS grade, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY grade
+ORDER BY num DESC
+LIMIT 1000 
+
+
 
 # How many JobAnnounce_Qualification_ComputerSkill is not null? 319 rows (out of 6428)
 
@@ -212,6 +299,8 @@ GROUP BY jd
 ORDER BY num DESC
 LIMIT 1000
 
-
+#############################################################
+######          JobAnnounce, Condition                  ######
+#############################################################
 
 
