@@ -22,7 +22,9 @@
 
 - Geo-coordinates: Lat, Lng, utm_x, utm_y, 
 
-###### JobAnnounce, basic descriptions (top-10)
+#############################################################
+######          JobAnnounce, basic descriptions        ######
+#############################################################
 
 # What are the top 10 companies that had the most JobAnnouncement? 
 
@@ -37,6 +39,56 @@ LIMIT 1000
 SELECT DISTINCT( JobAnnounce_ProvinceName ) AS provincename, COUNT(*) AS num 
 FROM `jobsbot-276604.jobsbot.smartjob` 
 GROUP BY provincename
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the SalaryRequirementUnitName in the job postings? (total out of 6428)
+
+SELECT DISTINCT( JobAnnounce_SalaryRequireUnitName ) AS salaryreq, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY salaryreq
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the JobAnnoucement_TypeName in the job postings? (out of 6428)
+
+SELECT DISTINCT( JobAnnounce_TypeName ) AS typename, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY typename
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the top 5 JobAnnounce_JobPosition in the postings? (out of 6428)
+
+SELECT DISTINCT( JobAnnounce_JobPosition ) AS jobposition, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jobposition
+ORDER BY num DESC
+LIMIT 1000 
+
+
+# What are the top 5 JobAnnounce_JobDescription in the postings? (out of 6428)
+
+SELECT DISTINCT( JobAnnounce_JobDescription ) AS jobdesc, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jobdesc
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the top 5 JobAnnounce_JobFieldID in the postings? (out of 6428)
+# Need data dictionary for FieldID codes 
+
+SELECT DISTINCT( JobAnnounce_JobFieldID ) AS jfieldid, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jfieldid
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the top 5 JobAnnounce_Wage_Min (wage-minumum) rates posted? 
+
+SELECT DISTINCT( JobAnnounce_Wage_Min ) AS wagemin, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY wagemin
 ORDER BY num DESC
 LIMIT 1000 
 
