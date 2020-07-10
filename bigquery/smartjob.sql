@@ -410,11 +410,33 @@ GROUP BY icl
 ORDER BY num DESC
 LIMIT 1000
 
-#############################################################
+##############################################################
 ######          JobAnnouce Interview, Disability        ######
-#############################################################
+###############################################################
 
+# What type of interviews are listed?
 
+SELECT DISTINCT( JobAnnounce_interview_TypeName ) AS jit, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jit
+ORDER BY num DESC
+LIMIT 1000
+
+# Which job positions require interviews? JobAnnounce_interview_JobPosition
+
+SELECT DISTINCT( JobAnnounce_interview_JobPosition ) AS jp, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jp
+ORDER BY num DESC
+LIMIT 1000
+
+# What are the most frequent salary figures posted?
+
+SELECT DISTINCT( Salary ) AS salary, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY salary
+ORDER BY num DESC
+LIMIT 1000
 
 
 
