@@ -303,4 +303,37 @@ LIMIT 1000
 ######          JobAnnounce, Condition                  ######
 #############################################################
 
+# What are the primary conditions for the JobAnnoucement? JobAnnounce_Condition_TypeName
+
+SELECT DISTINCT( JobAnnounce_Condition_TypeName ) AS contn, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY contn  
+ORDER BY num DESC
+LIMIT 1000
+
+
+# What are the top 5 location conditions (Province) of the job? JobAnnounce_Condition_ProvinceName
+
+SELECT DISTINCT( JobAnnounce_Condition_ProvinceName ) AS province, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY province  
+ORDER BY num DESC
+LIMIT 1000
+
+# What are the top 5 interview descriptions condition ?  JobAnnounce_Condition_InterviewDescription
+
+# What are the top 5 other conditions for the job announcements? JobAnnounce_Condition_OtherCondition
+
+SELECT DISTINCT( JobAnnounce_Condition_OtherCondition ) AS othercon, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY othercon  
+ORDER BY num DESC
+LIMIT 1000
+
+#############################################################
+######          JobAnnounce, basic descriptions        ######
+#############################################################
+
+
+
 
