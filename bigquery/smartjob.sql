@@ -331,8 +331,52 @@ ORDER BY num DESC
 LIMIT 1000
 
 #############################################################
-######          JobAnnounce, basic descriptions        ######
+######          Employer, basic descriptions        ######
 #############################################################
+
+# What are the top 5 EMPLOYER BUSINES TYPE NAME descriptions of their business type? Employer_BusinessTypeName
+
+SELECT DISTINCT( Employer_BusinessTypeName ) AS empbt, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY empbt  
+ORDER BY num DESC
+LIMIT 1000
+
+# What are the top 5 EMPLOYER ORGANIZATION NAME ? Employer_OrganizationName
+
+SELECT DISTINCT( Employer_OrganizationName ) AS empon, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY empon  
+ORDER BY num DESC
+LIMIT 1000
+
+# What are the top 5 EMPLOYER Province Name? Employer_ProvinceName
+(SAME as job announcement province)
+
+SELECT DISTINCT( Employer_ProvinceName ) AS empprov, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY empprov 
+ORDER BY num DESC
+LIMIT 1000
+
+# What are the top 5 Employer NAMES ?   Employer_EmployerName
+
+SELECT DISTINCT( Employer_EmployerName ) AS empname, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY empname 
+ORDER BY num DESC
+LIMIT 1000
+
+
+
+
+
+
+
+
+
+
+
 
 
 
