@@ -92,6 +92,53 @@ GROUP BY wagemin
 ORDER BY num DESC
 LIMIT 1000 
 
+# What are the top 5 JobAnnounce_WorkTimeStart in the postings? 
+
+SELECT DISTINCT( JobAnnounce_WorkTimeStart ) AS wts, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY wts
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the top 5 JobAnnounce_WorkTimeEnd in the postings?
+
+SELECT DISTINCT( JobAnnounce_WorkTimeEnd ) AS wte, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY wte
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the different employment JobAnnounce_EmploymentType  type? (similar to TypeName?)
+
+
+# What are the top 5 JobAnnounce_JobFieldName in the postings?
+
+SELECT DISTINCT( JobAnnounce_JobFieldName ) AS jfn, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY jfn
+ORDER BY num DESC
+LIMIT 1000 
+
+
+
+
+
+
+# Unsure: 
+- JobAnnounce_HiredAmount
+- JobAnnounce_ApplyAmount
+- JobAnnounce_WorkingDayTypeCode
+- JobAnnounce_WorkDayAdvance
+- JobAnnoucement_IsInterviewOnline
+
+
+
+
+
+#############################################################
+######          JobAnnounce, Qualifications            ######
+#############################################################
+
 
 
 
