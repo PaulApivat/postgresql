@@ -2,11 +2,16 @@
 # Smartjob Fields can be broken into these large buckets:
 
 - JobAnnounce, basic descriptions
+*EmployerName (ไทยรวมสินพัฒนาอุตสาหกรรม, บริษัท ซันเมอรี่)
 *JobPosition (ie thai v eng; พนักงาน, วิศวกร, เจ้าหน้าที่, ช่าง)
+
 - JobAnnounce Qualifications
-*ComputerSkill
-*CurriculumName
-*
+*ComputerSkill (Office, Excel, PPT)
+*CurriculumName (Acct, Electric, Motor, Marketing)
+*DegreeName (Bach, 9th, ม.ศ.3)
+
+
+
 - JobAnnounce Condition
 - JobAnnounce Interview
 
@@ -16,6 +21,27 @@
 - Employer
 
 - Geo-coordinates: Lat, Lng, utm_x, utm_y, 
+
+###### JobAnnounce, basic descriptions (top-10)
+
+# What are the top 10 companies that had the most JobAnnouncement? 
+
+SELECT DISTINCT( JobAnnounce_EmployerName ) AS empname, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY empname
+ORDER BY num DESC
+LIMIT 1000 
+
+# What are the top 5 Provinces in terms of JobAnnoucement location?
+
+SELECT DISTINCT( JobAnnounce_ProvinceName ) AS provincename, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY provincename
+ORDER BY num DESC
+LIMIT 1000 
+
+
+
 
 # Count of distinct degree requirements
 # DISTINT(JobAnnounce_Qualification_DegreeName)
