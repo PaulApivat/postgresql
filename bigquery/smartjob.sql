@@ -342,6 +342,16 @@ GROUP BY empbt
 ORDER BY num DESC
 LIMIT 1000
 
+## ADD Employer_EmployerName with GROUP BY > DISTINCT
+
+SELECT Employer_BusinessTypeName, Employer_EmployerName,  COUNT(*) AS num, 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY Employer_BusinessTypeName, Employer_EmployerName
+ORDER BY num DESC
+LIMIT 1000
+
+
+
 # What are the top 5 EMPLOYER ORGANIZATION NAME ? Employer_OrganizationName
 
 SELECT DISTINCT( Employer_OrganizationName ) AS empon, COUNT(*) AS num 
@@ -367,10 +377,42 @@ GROUP BY empname
 ORDER BY num DESC
 LIMIT 1000
 
+# What are the top 5 Employers with the most Job Annoucement (by Business Type)?
+# GROUP BY instead of DISTINCT
 
+SELECT Employer_BusinessTypeName, Employer_EmployerName,  COUNT(*) AS num, 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY Employer_BusinessTypeName, Employer_EmployerName
+ORDER BY num DESC
+LIMIT 1000
 
+# What are top 5 product/markets represented in the dataset? Employer_CompanyInformation
 
+SELECT DISTINCT( Employer_CompanyInformation ) AS eci, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY eci 
+ORDER BY num DESC
+LIMIT 1000
 
+# How many employers are Direct Sales types (ie amway)? 
+
+SELECT DISTINCT( Employer_IsDirectSales ) AS ids, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY ids
+ORDER BY num DESC
+LIMIT 1000
+
+# How many employers are looking for Contract Labor ? 
+
+SELECT DISTINCT( Employer_IsContractLabor ) AS icl, COUNT(*) AS num 
+FROM `jobsbot-276604.jobsbot.smartjob` 
+GROUP BY icl
+ORDER BY num DESC
+LIMIT 1000
+
+#############################################################
+######          JobAnnouce Interview, Disability        ######
+#############################################################
 
 
 
