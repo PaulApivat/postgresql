@@ -827,23 +827,44 @@ SELECT CURRENT_DATE
 # R - date
 Sys.Date()
 
+
+
 ### ------ EXTRACT(), AGE(), TO_CHAR() -------###
 
-# Extract Year from Timestamp
+### R - equivalents ###
+### LUBRIDATE in R to achieve similar results ###
+# BORROW FROM bike_orderlines_tbl <- read_rds("../00_data/bike_sales/data_wrangled/bike_orderlines.rds")
+
+borrow_bike_tbl <- read_rds("../../business_science/DS4B_101/00_data/bike_sales/data_wrangled/bike_orderlines.rds")
+
+borrow_bike_tbl
+
+library(lubridate)
+# Extract YEAR from Timestamp
 
 SELECT EXTRACT(YEAR FROM payment_date) AS myyear
 FROM payment
 
-# Extract Month from Timestamp
+borrow_bike_tbl %>%
+    mutate(year_only = as.character(order_date) %>% ymd() %>% year()) %>% view()
+
+# Extract MONTH from Timestamp
 
 SELECT EXTRACT(MONTH FROM payment_date) AS pay_month
 FROM payment
 
-# Extract Quarter from Timestamp
+borrow_bike_tbl %>%
+    mutate(month_only = as.character(order_date) %>% ymd() %>% month()) %>% view()
+
+# Extract QUARTER from Timestamp
 
 SELECT EXTRACT(QUARTER FROM payment_date) 
 AS pay_quarter
 FROM payment
+
+borrow_bike_tbl %>%
+    mutate(quarter_only = as.character(order_date) %>% ymd() %>% quarter()) %>% view()
+
 
 # How OLD a timestamp is - AGE()
 
@@ -888,7 +909,9 @@ FROM payment
 WHERE EXTRACT(DOW FROM payment_date) = 1
 
 
-flights %>% view()
+
+
+
 
 
 
