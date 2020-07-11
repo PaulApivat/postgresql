@@ -929,16 +929,61 @@ WHERE EXTRACT(DOW FROM payment_date) = 1
 
 # Find proportion between two numbers (2 decimals)
 SELECT ROUND(rental_rate/replacement_cost, 2) FROM film
+# format as percentage
+SELECT ROUND(rental_rate/replacement_cost, 2)*100 FROM film
+
 
 # equivalent in R
 borrow_bike_tbl %>%
     mutate(proportion_price = sprintf('%0.2f',price/total_price)) %>% view()
 
+# turn proportion, two decimal, into percentage in R
+borrow_bike_tbl %>%
+    mutate(proportion_price = sprintf('%0.4f',(price/total_price)*100)) %>% view()
+
+
+# SQL use multiplication operator (deposit)
+SELECT 0.1 * replacement_cost AS deposit
+FROM film
+
+# equivalent in R
+borrow_bike_tbl %>%
+    mutate(deposit = total_price * 0.1) %>% view()
+
+## STRING FUNCTIONS and OPERATORS
+
+# concatenate strings very simple in SQL
+SELECT first_name || last_name FROM customer
+# add space
+SELECT first_name || ' ' || last_name FROM customer
+# upper case
+SELECT upper(first_name) || ' ' || upper(last_name) AS full_name FROM customer
 
 
 
 
+# paste() from base-R concatenates, no need sep = 
+borrow_bike_tbl %>%
+    mutate(concatenate_string = paste(frame_material, city)) %>% view()
 
+# R concatenate string with custom separator
+borrow_bike_tbl %>%
+    mutate(concatenate_string = paste(frame_material, city, sep = "---")) %>% view()
+
+# R concatenate strings and turn into UPPERCASE
+borrow_bike_tbl %>%
+    mutate(concatenate_string = paste(str_to_upper(frame_material), str_to_upper(city), sep = "---")) %>% view()
+
+## Creating CUSTOM email in SQL
+## note take first letter of first_name with left(first_name,1)
+## make all letter LOWER CASE
+SELECT LOWER(left(first_name,1)) || LOWER(last_name) || '@gmail.com' 
+AS custom_email
+FROM customer
+
+# nearly equivalent in R
+borrow_bike_tbl %>%
+    mutate(concatenate_string = paste0(substring(str_to_lower(frame_material),1,1), str_to_lower(city), '@gmail.com')) %>% view()
 
 
 
