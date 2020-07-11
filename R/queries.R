@@ -827,6 +827,45 @@ SELECT CURRENT_DATE
 # R - date
 Sys.Date()
 
+### ------ EXTRACT(), AGE(), TO_CHAR() -------###
+
+# Extract Year from Timestamp
+
+SELECT EXTRACT(YEAR FROM payment_date) AS myyear
+FROM payment
+
+# Extract Month from Timestamp
+
+SELECT EXTRACT(MONTH FROM payment_date) AS pay_month
+FROM payment
+
+# Extract Quarter from Timestamp
+
+SELECT EXTRACT(QUARTER FROM payment_date) 
+AS pay_quarter
+FROM payment
+
+# How OLD a timestamp is - AGE()
+
+SELECT AGE(payment_date)
+FROM payment
+
+###  TO_CHAR - convert timestamp to string
+# convert timestamp to MONTH(full caps) and YYYY(four digit year)
+# different formatting - consult SQL DOCUMENATION***
+
+SELECT TO_CHAR(payment_date, 'MONTH-YYYY')
+FROM payment
+
+SELECT TO_CHAR(payment_date, 'MM/dd/YYYY')
+FROM payment
+
+SELECT TO_CHAR(payment_date, 'dd-MM-YYYY')
+FROM payment
+
+
+flights %>% view()
+
 
 
 
