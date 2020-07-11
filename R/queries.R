@@ -871,6 +871,12 @@ borrow_bike_tbl %>%
 SELECT AGE(payment_date)
 FROM payment
 
+borrow_bike_tbl %>%
+    mutate(age_only = as.character(order_date) %>% ymd()) %>% 
+    mutate(age = as.period(interval(start = age_only, end = Sys.Date()))) %>% view()
+
+
+
 ###  TO_CHAR - convert timestamp to string
 # convert timestamp to MONTH(full caps) and YYYY(four digit year)
 # different formatting - consult SQL DOCUMENATION***
