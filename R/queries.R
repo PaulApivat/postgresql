@@ -800,10 +800,36 @@ WHERE first_name = 'Nick' AND last_name = 'Wahlberg'
 
 
 
-
-
-
 # Advanced SQL ----
+
+# Time Information Data Types
+
+# TIME - only time Hours, Minutes, Seconds
+# DATE - only date Day, Month, year 
+# TIMESTAMP - date and time 
+# TIMESTAMPZ - date, time and timezone 
+
+# SQL - show current timezone
+SHOW TIMEZONE
+# R - show current timezone
+Sys.timezone()
+
+# SQL - get timestamp and timezone for right NOW()
+SELECT NOW() 
+# R - show current timestamp
+Sys.time()
+
+# SQL - timestamp with date
+SELECT TIMEOFDAY()
+
+# SQL - current date
+SELECT CURRENT_DATE
+# R - date
+Sys.Date()
+
+
+
+
 
 # Assessment Test 2 ----
 
