@@ -925,6 +925,14 @@ SELECT COUNT(*)
 FROM payment
 WHERE EXTRACT(DOW FROM payment_date) = 1
 
+# MATHEMATICAL FUNCTIONS 
+
+# Find proportion between two numbers (2 decimals)
+SELECT ROUND(rental_rate/replacement_cost, 2) FROM film
+
+# equivalent in R
+borrow_bike_tbl %>%
+    mutate(proportion_price = sprintf('%0.2f',price/total_price)) %>% view()
 
 
 
