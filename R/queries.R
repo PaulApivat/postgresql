@@ -884,6 +884,7 @@ borrow_bike_tbl %>%
 SELECT TO_CHAR(payment_date, 'MONTH-YYYY')
 FROM payment
 
+
 SELECT TO_CHAR(payment_date, 'MM/dd/YYYY')
 FROM payment
 
@@ -896,12 +897,22 @@ FROM payment
 SELECT DISTINCT(TO_CHAR(payment_date, 'MONTH'))
 FROM payment
 
+# Challenge in R
+borrow_bike_tbl %>%
+    mutate(month_format = as.character(order_date) %>% month(label = TRUE, abbr = FALSE)) %>% view()
+
+
 # How many payments occurred on a Monday? 
 
 # my solution - use GROUP BY
 SELECT TO_CHAR(payment_date, 'DAY') AS payment_day, COUNT(*)
 FROM payment
 GROUP BY payment_day
+
+# Challenge # 2 solution in R
+borrow_bike_tbl %>%
+    mutate(month_format = as.character(order_date) %>% month(label = TRUE, abbr = FALSE)) %>% 
+    count(month_format)
 
 # alternative solution DOW - 'day of week' (dow) - use GROUP BY
 
