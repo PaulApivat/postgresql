@@ -863,6 +863,30 @@ FROM payment
 SELECT TO_CHAR(payment_date, 'dd-MM-YYYY')
 FROM payment
 
+# TIMESTAMPS and EXTRACT - CHALLENGE TASKS
+
+# During which months (unique) did payment occur?
+SELECT DISTINCT(TO_CHAR(payment_date, 'MONTH'))
+FROM payment
+
+# How many payments occurred on a Monday? 
+
+# my solution - use GROUP BY
+SELECT TO_CHAR(payment_date, 'DAY') AS payment_day, COUNT(*)
+FROM payment
+GROUP BY payment_day
+
+# alternative solution DOW - 'day of week' (dow) - use GROUP BY
+
+SELECT EXTRACT(DOW FROM payment_date) AS payment_day, COUNT(*) 
+FROM payment
+GROUP BY payment_day
+
+# ideal course solution - use WHERE
+SELECT COUNT(*) 
+FROM payment
+WHERE EXTRACT(DOW FROM payment_date) = 1
+
 
 flights %>% view()
 
