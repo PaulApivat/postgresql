@@ -1093,6 +1093,48 @@ SELECT memid, surname, firstname, joindate
 FROM cd.members
 WHERE joindate BETWEEN '2012-09-01' AND '2012-09-27'
 
+# Q8: How can you produce an ordered list of the first 10 surnames in the members table? 
+# my solution (slightly problematic)
+SELECT DISTINCT(surname) AS distinct_surname,  memid
+FROM cd.members
+ORDER BY distinct_surname
+
+# better solution
+SELECT DISTINCT(surname)
+FROM cd.members
+ORDER BY surname
+LIMIT 10
+
+# Q9: You'd like to get the signup date of your last member. How can you retrieve this information? 
+SELECT joindate
+FROM cd.members
+ORDER BY joindate DESC
+LIMIT 1
+
+# Q10: Produce a count of the number of facilities that have a cost to guests of 10 or more
+SELECT COUNT(guestcost)
+FROM cd.facilities
+WHERE guestcost >= 10
+
+# Q11: Produce a list of total number of slots booked per facility in the month
+# of September 2012 NOTE: see end date
+SELECT SUM(slots), facid
+FROM cd.bookings
+WHERE starttime BETWEEN '2012-09-01' AND '2012-10-01'
+GROUP BY facid
+ORDER BY SUM(slots) ASC
+
+
+# Q12 Produce a lit of facilities with more thatn 1000 slots booked 
+# output: facility id, total slots, sorted by facility id
+SELECT SUM(slots), facid
+FROM cd.bookings
+GROUP BY facid
+HAVING SUM(slots) > 1000
+ORDER BY facid
+
+
+
 
 
 
