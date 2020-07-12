@@ -1133,7 +1133,24 @@ GROUP BY facid
 HAVING SUM(slots) > 1000
 ORDER BY facid
 
+## Q13 How can you produce a list of start times for bookings for tennis courts,
+## for the date '2012-09-21'?
 
+SELECT starttime, name FROM cd.facilities
+INNER JOIN cd.bookings
+ON cd.facilities.facid = cd.bookings.facid
+WHERE TO_CHAR(starttime, 'YYYY-MM-dd') = '2012-09-21' AND name LIKE '%Tennis Court%'
+ORDER BY starttime, name ASC 
+
+## 014 How can you produce a list of the start times for bookings by members named 
+## 'David Farrell' (34 rows)
+
+SELECT starttime, firstname, surname FROM cd.facilities
+INNER JOIN cd.bookings
+ON cd.facilities.facid = cd.bookings.facid
+INNER JOIN cd.members 
+ON cd.members.memid = cd.bookings.memid
+WHERE firstname = 'David' AND surname = 'Farrell'
 
 
 
