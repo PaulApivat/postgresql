@@ -872,8 +872,8 @@ SELECT AGE(payment_date)
 FROM payment
 
 borrow_bike_tbl %>%
-    mutate(age_only = as.character(order_date) %>% ymd()) %>% 
-    mutate(age = as.period(interval(start = age_only, end = Sys.Date()))) %>% view()
+    mutate(date = as.character(order_date) %>% ymd()) %>% 
+    mutate(age = as.period(interval(start = date, end = Sys.Date()))) %>% view()
 
 
 
@@ -899,7 +899,8 @@ FROM payment
 
 # Challenge in R
 borrow_bike_tbl %>%
-    mutate(month_format = as.character(order_date) %>% month(label = TRUE, abbr = FALSE)) %>% view()
+    mutate(month_format = as.character(order_date) %>% month(label = TRUE, abbr = FALSE)) %>% 
+    count(month_format) %>% view()
 
 
 # How many payments occurred on a Monday? 
@@ -913,6 +914,11 @@ GROUP BY payment_day
 borrow_bike_tbl %>%
     mutate(month_format = as.character(order_date) %>% month(label = TRUE, abbr = FALSE)) %>% 
     count(month_format)
+
+
+borrow_bike_tbl %>%
+    mutate(day_format = as.character(order_date) %>% day()) %>% 
+    count(day_format)
 
 # alternative solution DOW - 'day of week' (dow) - use GROUP BY
 
@@ -1153,11 +1159,10 @@ ON cd.members.memid = cd.bookings.memid
 WHERE firstname = 'David' AND surname = 'Farrell'
 
 
-
-
-
-
 # Creating Databases and Tables ----
+
+
+
 
 # Assessment Test 3 ----
 
