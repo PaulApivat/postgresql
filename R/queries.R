@@ -1057,20 +1057,41 @@ AND f1.length = f2.length
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Assessment Test 2 ----
+
+# Q1: How can you retrieve all the information from the cd.facilities table?
+SELECT * FROM cd.facilities
+
+# Q2: You want to print out a list of all of the facilities and their cost to members. 
+# How would you retrieve a list of only facility names and costs?
+SELECT name, membercost FROM cd.facilities
+
+# Q3: How can you produce a list of facilities that charge a fee to members?
+SELECT name, membercost 
+FROM cd.facilities
+WHERE membercost > 0
+
+# Q4: How can you produce a list of facilities that charge a fee to members,
+# and that fee is less than 1/50th of the monthly maintenance cost? 
+# Return: facid, facility name, member cost and monthly maintenance
+SELECT facid, name, membercost, monthlymaintenance
+FROM cd.facilities
+WHERE membercost > 0 AND membercost < (monthlymaintenance/50)
+
+# Q5: Can you produce a list of all facilities with the word "Tennis" in their name?
+SELECT *
+    FROM cd.facilities
+WHERE name LIKE '%Tennis%'
+
+# Q6: Retrieve the details of facilities with ID 1 and 5? Try to do it without using the OR operator. 
+SELECT *
+    FROM cd.facilities
+WHERE name LIKE '%2%'
+
+
+
+
+
 
 # Creating Databases and Tables ----
 
