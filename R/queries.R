@@ -975,15 +975,98 @@ borrow_bike_tbl %>%
     mutate(concatenate_string = paste(str_to_upper(frame_material), str_to_upper(city), sep = "---")) %>% view()
 
 ## Creating CUSTOM email in SQL
-## note take first letter of first_name with left(first_name,1)
+## note take first letter of first_name with left(first_name,1); '1' for first lettter, 2 for first two letters etc. 
 ## make all letter LOWER CASE
 SELECT LOWER(left(first_name,1)) || LOWER(last_name) || '@gmail.com' 
 AS custom_email
 FROM customer
 
 # nearly equivalent in R
+# paste0 has no spacing, paste has automatic spacing. 
 borrow_bike_tbl %>%
     mutate(concatenate_string = paste0(substring(str_to_lower(frame_material),1,1), str_to_lower(city), '@gmail.com')) %>% view()
+
+## SubQuery and EXIST function (instead of doing two separate queries)
+## Query on results of another Query - - use TWO SELECT statements
+
+## Example: Query list of all students who scored better than average
+## subquery, inside parentheses is done first
+SELECT student,grade
+FROM test_scores
+WHERE grade > (SELECT AVG(grade) FROM test_scores)
+
+## Another example:
+SELECT student,grade
+FROM test_scores
+WHERE student IN (SELECT student FROM honor_rolls)
+
+# Sub Query
+SELECT title, rental_rate 
+FROM film
+WHERE rental_rate > (SELECT AVG(rental_rate) FROM film)
+
+# R-equivalent Sub Query
+borrow_bike_tbl %>%
+    filter(total_price > mean(total_price)) %>%
+    arrange(desc(total_price)) %>% view()
+
+# JOIN ALONG WITH SUBQUERY
+# SubQuery and IN operator
+# step 1: create the subquery - select inventory.film_id, but inner_join rental & inventory ON inventory_id 
+# to access film_id from inventory --> returns a list of film_id
+# step 2: get title associated with each film_id from film, using the sub-query as a filtering condition
+# step 3: order by film_id or title
+SELECT film_id, title 
+FROM film
+WHERE film_id IN
+(SELECT inventory.film_id 
+    FROM rental
+    INNER JOIN inventory ON inventory.inventory_id = rental.inventory_id
+    WHERE return_date BETWEEN '2005-05-29' AND '2005-05-30')
+ORDER BY film_id
+
+# EXIST operator
+# Select all customers where  one payment amount is greater than 11
+SELECT first_name, last_name
+FROM customer AS c
+WHERE EXISTS
+(SELECT * FROM payment as p 
+    WHERE p.customer_id = c.customer_id
+    AND amount > 11)
+
+## SELF JOIN
+# a query which a table is joined to itself
+# good for comparing values in a column within the same table? 
+# looks same as standard join, but use the same table
+# MUST use TWO alias for same table for self-join
+
+
+# Example: Select all films with the same length
+# my own rough solution
+SELECT title, length 
+FROM film
+GROUP BY length, title
+ORDER BY length DESC
+
+# ideal solutio: need to join the SAME table
+SELECT f1.title, f2.title, f1.length 
+FROM film AS f1
+INNER JOIN film AS f2 ON
+f1.film_id != f2.film_id
+AND f1.length = f2.length
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
