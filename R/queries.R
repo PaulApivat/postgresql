@@ -1088,6 +1088,11 @@ SELECT *
     FROM cd.facilities
 WHERE name LIKE '%2%'
 
+# Q7: How can you produce a list of members who joined after the start of September 2012?
+SELECT memid, surname, firstname, joindate
+FROM cd.members
+WHERE joindate BETWEEN '2012-09-01' AND '2012-09-27'
+
 
 
 
