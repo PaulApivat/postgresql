@@ -227,3 +227,98 @@ table %>%
     group_by(c1) %>%
     summarize(sum_c2 = sum(c2)) %>%
     filter(sum_c2 > 100)
+
+#----------------#
+# Dates AND Time #
+#----------------#
+
+### Basics
+
+# SQL - show current timezone
+SHOW TIMEZONE
+# R - show current timezone
+Sys.timezone()
+
+# SQL - get timestamp and timezone for right NOW()
+SELECT NOW() 
+# R - show current timestamp
+Sys.time()
+
+# SQL - current date
+SELECT CURRENT_DATE
+# R - date
+Sys.Date()
+
+
+###
+
+# Time Related Commands in SQL & R
+
+# Extract YEAR (or MONTH or QUARTER) from timestamp
+SELECT EXTRACT(YEAR FROM c1) 
+FROM table
+
+# R equivalent w/ pipping inside mutate function
+library(lubridate)
+
+table %>%
+    # can substitue year() w/ month() or quarter()
+    mutate(year = as.character(c1) %>% ymd() %>% year())
+
+# Find timestamp age to current
+# Age() in SQL finds difference between date and current time
+SELECT AGE(date_column)
+FROM table
+
+# R is not as elegant here
+table %>%
+    mutate(date = as.character(date_column) %>% ymd()) %>% 
+    # finds difference between date and Sys.Date()
+    mutate(age = as.period(interval(start = date, end = Sys.Date())))
+
+###
+
+
+# Grab distinct months from a date-time column
+SELECT DISTINCT(TO_CHAR(date_column, 'MONTH'))
+FROM table
+
+# Not as succinct dplyr
+table %>%
+    mutate(month_unique = as.character(date_column) %>% month(label = TRUE, abbr = FALSE)) %>% 
+    count(month_unique)
+
+
+# Finding aggregate values by day of the week
+# SQL allows you to date time to spelled-out days of the week
+SELECT TO_CHAR(date_column, 'DAY'), COUNT(*)
+FROM table
+GROUP BY date_column
+
+
+# Close approximate in R
+library(lubridate)
+
+table %>%
+    mutate(day_format = as.character(date_column) %>% day()) %>% 
+    count(day_format)
+
+###
+
+# Curious, I couldn't find an R equivalent for the following SQL queries
+
+SELECT TO_CHAR(date_column, 'MONTH-YYYY')
+FROM table
+
+SELECT TO_CHAR(date_column, 'MM/dd/YYYY')
+FROM table
+
+SELECT TO_CHAR(date_column, 'dd-MM-YYYY')
+FROM table
+
+# SQL can convert to text and in idiosyncratic formats
+# Using R, I've only had to convert from idiosynstratic to standard formats
+SELECT TO_CHAR(date_column, 'MM/dd---YYYY')
+FROM table
+
+
