@@ -1290,6 +1290,22 @@ SET hire_date = account.created_on
 FROM account 
 WHERE account_job.user_id = account.user_id
 
+## DELETE ##
+
+# general syntax
+DELETE FROM table
+WHERE row_id = 1
+
+# Delete Join (opposite of Update Join)
+DELTE FROM TableA 
+USING TableB 
+WHERE TableA.id = TableB.id 
+
+# delete row and returning
+DELETE FROM job
+WHERE job_name = 'Cowboy'
+RETURNING job_id, job_name
+
 
     
 
