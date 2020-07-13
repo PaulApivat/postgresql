@@ -1161,6 +1161,41 @@ WHERE firstname = 'David' AND surname = 'Farrell'
 
 # Creating Databases and Tables ----
 
+# General Syntax to create tables in SQL -
+
+CREATE TABLE table_name(
+    column_name TYPE column_constraint,
+    column_name TYPE column_constraint,
+    table_constraint table_constraint
+) INHERITS existing_table_name
+
+
+# Instructions for Creating Database Table in POSTGRESQL
+# PostgreSQL -> Databases -> create & name database (ie. learning)
+
+# Creating first 'account' table in 'learning' database
+CREATE TABLE account(
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(250) UNIQUE NOT NULL,
+    created_on TIMESTAMP NOT NULL,
+    last_login TIMESTAMP 
+)
+
+# create job table
+CREATE TABLE job(
+    job_id SERIAL PRIMARY KEY,
+    job_name VARCHAR(200) UNIQUE NOT NULL
+)
+
+# create account_job table
+# how to reference a foreign key
+CREATE TABLE account_job(
+    user_id INTEGER REFERENCES account(user_id),   # reference primary key in account table
+    job_id INTEGER REFERENCES job(job_id),         # reference primary key in job table
+    hire_date TIMESTAMP
+)
 
 
 
