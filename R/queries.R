@@ -1507,6 +1507,198 @@ VALUES
 
 # Conditional Expressions and Procedures ----
 
+## CASE ##
+# similar to IF-ELSE statements
+
+# general syntax
+
+CASE  
+WHEN condition1 THEN result1
+WHEN condition2 THEN result2 
+ELSE some_other_result 
+END 
+
+# Simple Example
+SELECT a, 
+CASE WHEN a = 1 THEN 'one'
+CASE WHEN a = 2 THEN 'two'
+ELSE 'other' AS label 
+END 
+FROM test;
+
+# CASE Expression Syntax
+
+CASE expression 
+WHEN value1 THEN result1
+WHEN value2 THEN result2 
+ELSE some_other_result 
+END 
+
+# simple example with CASE expression syntax
+SELECT a, 
+CASE a WHEN 1 THEN 'one'
+    WHEN 2 THEN 'two' 
+    ELSE 'other' 
+END 
+FROM test; 
+
+# Example labeling customers Premium and Plus
+
+SELECT customer_id, 
+CASE 
+WHEN (customer_id <= 100) THEN 'Premium'
+WHEN (customer_id BETWEEN 100 AND 200) THEN 'Plus'
+ELSE 'Normal'
+END AS customer_class 
+FROM customer
+
+# Example Customer Raffle (My solution)
+SELECT customer_id,
+CASE 
+WHEN (customer_id = 2) THEN 'First' 
+WHEN (customer_id = 5) THEN 'Second'
+ELSE 'Normal'
+END AS raffle
+FROM customer
+
+# Example Customer Raffle (ideal solution)
+SELECT customer_id,
+CASE customer_id
+WHEN 2 THEN 'Winner' 
+WHEN 5 THEN 'Second Place'
+ELSE 'Normal'
+END AS raffle_results
+FROM customer
+
+# SUM CASE WHEN
+# use CASE-WHEN to label 1 for rental_rates of 0.99 (bargains)
+# then SUM all bargains
+
+SELECT 
+SUM(CASE rental_rate
+    WHEN 0.99 THEN 1
+    ELSE 0
+    END) AS number_of_bargains
+FROM film
+
+# When you need to SUM across several categories
+# Call function SUM() on a CASE call
+SELECT 
+SUM(CASE rental_rate
+    WHEN 0.99 THEN 1
+    ELSE 0
+    END) AS bargains,
+SUM(CASE rental_rate 
+    WHEN 2.99 THEN 1
+    ELSE 0
+    END) AS regular,
+SUM(CASE rental_rate 
+    WHEN 4.99 THEN 1
+    ELSE 0
+    END) AS premium
+FROM film
+
+# CASE - Challenge Task
+# Using CASE and SUM to count number of films for R, PG and PG-13
+
+SELECT 
+SUM(CASE rating
+    WHEN 'R' THEN 1
+    ELSE 0
+    END) AS r,
+SUM(CASE rating
+    WHEN 'PG' THEN 1
+    ELSE 0
+    END) AS pg, 
+SUM(CASE rating
+    WHEN 'PG-13' THEN 1
+    ELSE 0
+    END) AS pg13
+FROM film
+
+## COALESCE ##
+
+## CAST ##
+SELECT CAST('5' AS INTEGER)
+
+# does not work
+SELECT CAST('five' AS INTEGER)
+
+# PostgreSQL CAST operator
+SELECT '5'::INTEGER 
+
+# Example: CAST function to convert data type to string to count the digits
+# turn digit into character variable
+# get character length, once converted
+SELECT CHAR_LENGTH(CAST(inventory_id AS VARCHAR)) FROM rental
+
+
+
+## NULLIF ##
+# to check against something being equal to zero
+SELECT (
+    SUM(CASE WHEN department = 'A' THEN 1 ELSE 0 END) /
+        NULLIF(SUM(CASE WHEN department = 'B' THEN 1 ELSE 0 END),0)
+) AS department_ratio
+FROM depts
+
+
+## VIEW ##
+# note: avoid having to write the same query over and over again
+# VIEW does not store data physically, it simply stores the query
+
+# syntax
+CREATE VIEW view_name AS 
+# the query
+SELECT first_name, last_name, address FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+
+# Example View
+CREATE VIEW customer_info AS
+SELECT first_name, last_name, address FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+
+# Views simplify your complex query
+SELECT * FROM customer_info
+
+## EDITING A VIEW -- use CREATE OR REPLACE VIEW command
+CREATE OR REPLACE VIEW customer_info AS
+SELECT first_name, last_name, address, district FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+
+# remove view
+DROP VIEW IF EXISTS customer_info
+
+# change name of view
+ALTER VIEW customer_info RENAME to c_info
+
+##------- IMPORT and EXPORT DATA --------##
+# can import CSV
+# unless there are incompatible data files with SQL
+# postgresql.org/docs/12/sql-copy.html
+# Remember to confirm file location
+# VERY IMPORTANT - IMPORT does NOT create a table for you
+# It assumes a table is ALREADY CREATED.
+# There's no automated way within pgAdmin to create a table directly from CSV
+# probably the biggest flaw. 
+
+
+
+
+
+
+
+# Checks to see if two values are equal
+NULLIF(argh1, argh2)
+
+
+
+
+
+
 # Extra: PostGreSQL with Python ----
 
 # Bonus ----
