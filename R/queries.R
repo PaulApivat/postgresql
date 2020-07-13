@@ -1306,8 +1306,150 @@ DELETE FROM job
 WHERE job_name = 'Cowboy'
 RETURNING job_id, job_name
 
+## ALTER ##
 
-    
+# Changes to existing table structure -- use cases -->
+
+# add, drop, rename columns 
+# change column data type
+# set default values for column
+# add check constraints
+# rename table
+
+# General syntax
+
+# add column
+ALTER TABLE table_name 
+ADD COLUMN new_col TYPE 
+
+# remove column
+ALTER TABLE table_name 
+DROP COLUMN col_name 
+
+# alter constraints of existing column 
+ALTER TABLE table_name 
+ALTER COLUMN col_name  
+SET DEFAULT value      # DROP DEFAULT value | SET NOT NULL  | DROP NOT NULL | ADD CONSTRAINT constraint_name 
+
+# EXAMPLE ALTER pgadmin
+
+# create new Information table
+CREATE TABLE information(
+    info_id SERIAL PRIMARY KEY, 
+    title VARCHAR(500) NOT NULL,
+    person VARCHAR(50) NOT NULL UNIQUE
+)
+
+# RENAME table
+ALTER TABLE information 
+RENAME TO new_info 
+
+# RENAME column 
+ALTER TABLE new_info 
+RENAME COLUMN person TO people
+
+# INSERT data into table
+# intentional error: null value in column "people" violates not-null constraint
+# option 1: add value for people column
+# option 2: change constraint of people column
+INSERT INTO new_info(title)
+VALUES 
+('some new title')
+
+
+# option 2: Remove NOT NULL constraint of 'people' column
+# repeat previous INSERT and it now works
+ALTER TABLE new_info 
+ALTER COLUMN people DROP NOT NULL
+
+## DROP ##
+# allows completely remove column from table
+# postgresql remove indexes and constraints
+# however it will not remove columns used in views, triggers, stored procedures without additional CASCADE clause
+
+# general syntax
+
+ALTER TABLE table_name 
+DROP COLUMN col_name 
+
+# remove all dependencies in column add CASCADE
+ALTER TABLE table_name 
+DROP COLUMN col_name CASCADE 
+
+# check for existence to avoid error
+ALTER TABLE table_name 
+DROP COLUMN IF EXISTS col_name 
+
+# drop multiple columns 
+ALTER TABLE table_name 
+DROP COLUMN col_one, 
+DROP COLUMN col_two 
+
+# pgadmin examples
+# drop 'people' column from new_info table 
+ALTER TABLE new_info
+DROP COLUMN people 
+
+# re-try dropping people colum with IF EXISTS keyword
+ALTER TABLE new_info 
+DROP COLUMN IF EXISTS people
+
+## CHECK CONSTRAINT ## 
+
+# general syntax 
+# check constraint, age > 21, parent_age > age
+CREATE TABLE example(
+    ex_id SERIAL PRIMARY KEY, 
+    age SMALLINT CHECK (age > 21),
+    parent_age SMALLINT CHECK(
+        parent_age > age
+    )
+);
+
+# Example; Create Table with Check Constraints
+CREATE TABLE employees(
+    emp_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL, 
+    birthdate DATE CHECK (birthdate > '1900-01-01'),
+    hire_date DATE CHECK (hire_date > birthdate),
+    salary INTEGER CHECK (salary > 0)
+)
+
+# Try inserting into 'employees' table 
+# Try violating some CHECKS 
+# ERROR:  new row for relation "employees" violates check constraint "employees_birthdate_check"
+
+INSERT INTO employees(
+    first_name,
+    last_name,
+    birthdate,
+    hire_date,
+    salary
+)
+VALUES
+(   'Jose',
+    'Portilla',
+    '1899-11-03',
+    '2010-01-01',
+    100
+)
+
+# Try violating Salary Check
+INSERT INTO employees(
+    first_name,
+    last_name,
+    birthdate,
+    hire_date,
+    salary
+)
+VALUES
+('Sammy',
+    'Smith',
+    '1990-11-03',
+    '2010-01-01',
+    -100
+)
 
 
 
