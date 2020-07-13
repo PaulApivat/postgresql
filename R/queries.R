@@ -1161,6 +1161,7 @@ WHERE firstname = 'David' AND surname = 'Farrell'
 
 # Creating Databases and Tables ----
 
+## CREATE ##
 # General Syntax to create tables in SQL -
 
 CREATE TABLE table_name(
@@ -1196,6 +1197,107 @@ CREATE TABLE account_job(
     job_id INTEGER REFERENCES job(job_id),         # reference primary key in job table
     hire_date TIMESTAMP
 )
+
+## INSERT ##
+
+# general insert syntax
+INSERT INTO table (column1, column2,...)
+VALUES
+    (value1, value2,...),
+    (value2, value2,...),...;
+
+# general syntax inserting values from another table
+INSERT INTO table(column1, column2,...)
+SELECT column1, column2,...
+FROM another_table
+WHERE condition;
+
+# insert data into 'account' table
+INSERT INTO account(username, password, email, created_on)
+VALUES
+('Jose', 'password', 'jose@mail.com', CURRENT_TIMESTAMP)
+
+# insert data into 'job' table
+INSERT INTO job(job_name)
+VALUES
+('Astronaut')
+
+INSERT INTO job(job_name)
+VALUES
+('President')
+
+# now that we have 'account' and 'job' tables, 
+# insert data into 'account_job' connecting 'account' and 'job'
+INSERT INTO account_job(user_id, job_id, hire_date)
+VALUES
+(1,1,CURRENT_TIMESTAMP)     # first user_id = 1, job_id = 1 (Astronaut)
+
+
+### NOTE: Control + Z will retrieve previous SQL command!
+
+### What happens when you insert a user_id and job_id that does NOT exist? 
+### NOTE: in 'account' table there's only ONE user (Jose), so inserting at 'account_job' a user_id of 10 does not exist
+## ERROR:  insert or update on table "account_job" violates foreign key constraint "account_job_user_id_fkey"
+INSERT INTO account_job(user_id, job_id, hire_date)
+VALUES
+(10,10,CURRENT_TIMESTAMP)
+
+
+## UPDATE ##
+
+# general update syntax
+UPDATE table
+SET column1 = value1,
+    column2 = value2,... 
+WHERE
+    condition;
+    
+# Update scenario 1: Update based on current timestamp (with condition)
+    
+UPDATE account 
+SET last_login = CURRENT_TIMESTAMP 
+WHERE last_login IS NULL
+    
+# Update scenario 2: Update based on another column
+    
+UPDATE account 
+SET last_login = created_on
+
+# Update scenario 3: Using another table's values (Update Join)
+    
+UPDATE TableA  
+SET original_col = TableB.new_col 
+FROM TabltB 
+WHERE TableA.id = TableB.id 
+
+# Return columns that were affected
+
+UPDATE account 
+SET last_login = create_on 
+RETURNING user_id, last_login 
+
+# Example pgadmin
+
+# set last_login to created_on , return user_id, last_login
+UPDATE account
+SET last_login = created_on
+RETURNING user_id, last_login
+
+
+# update based on another table (Update Join)
+UPDATE account_job
+SET hire_date = account.created_on 
+FROM account 
+WHERE account_job.user_id = account.user_id
+
+
+    
+
+
+
+
+
+
 
 
 
