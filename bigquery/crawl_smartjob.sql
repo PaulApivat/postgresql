@@ -63,3 +63,10 @@ WHERE jobannounce.jobpositiontrans = 'Contractor'
 SELECT jobannounce.jobpositiontrans 
 FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
 WHERE jobannounce.jobpositiontrans LIKE '%ผลิต'
+
+-- Max Edu Degree Requirement
+SELECT DISTINCT(jobannounce_qualification.degreename_max) AS degree_max, COUNT(*) AS degree_max_count
+FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
+GROUP BY degree_max
+ORDER BY degree_max_count DESC
+LIMIT 100
