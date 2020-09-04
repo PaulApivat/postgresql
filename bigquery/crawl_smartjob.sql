@@ -1,4 +1,4 @@
--- Table: BigQuery > internalmongo
+-- Table: BigQuery > internalmongo > crawl_smartjob
 
 -- Get distinct applicanttypename and count each category
 SELECT DISTINCT(jobannounce.applicanttypename) AS name, COUNT(*) AS count_name
@@ -35,3 +35,31 @@ FROM `jobsbot-276604.internalmongo.crawl_smartjob`
 GROUP BY wage_min 
 ORDER BY safe_cast(wage_min AS NUMERIC) DESC
 LIMIT 300
+
+-- note: Change data type from string to numeric; tried getting rid of decimals
+SELECT DISTINCT(jobannounce.wage_min) AS wage_min, 
+        COUNT(*) AS count_wage_min
+FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
+GROUP BY wage_min 
+ORDER BY ROUND(safe_cast(wage_min AS NUMERIC)) DESC
+LIMIT 300
+
+
+-- Count Unique Job Descriptions
+SELECT DISTINCT(jobannounce.jobdescription) AS job_desc, 
+        COUNT(*) AS count_job_desc
+FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
+GROUP BY job_desc
+ORDER BY count_job_desc DESC
+LIMIT 300
+
+-- Got a basic WHERE clause to work
+SELECT jobannounce.jobpositiontrans 
+FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
+WHERE jobannounce.jobpositiontrans = 'Contractor'
+
+-- Got WHERE column LIKE '%ผลิต'
+-- n = 996 out 14700
+SELECT jobannounce.jobpositiontrans 
+FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
+WHERE jobannounce.jobpositiontrans LIKE '%ผลิต'
