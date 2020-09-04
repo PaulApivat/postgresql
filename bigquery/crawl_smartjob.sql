@@ -70,3 +70,10 @@ FROM `jobsbot-276604.internalmongo.crawl_smartjob`
 GROUP BY degree_max
 ORDER BY degree_max_count DESC
 LIMIT 100
+
+-- Dynamic (?) Timestamp 
+-- note: should be 10 most recent time stamp
+SELECT 	_sdc_received_at
+FROM `jobsbot-276604.internalmongo.crawl_smartjob` 
+ORDER BY _sdc_received_at DESC
+LIMIT 10
